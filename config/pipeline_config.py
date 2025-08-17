@@ -4,9 +4,7 @@ import uuid
 
 
 def configura_bronze_creators() -> Dict[str, Any]:
-    import os
-    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    data_path = os.path.join(repo_root, "data", "raw", "wiki_pages.json.gz")
+    data_path = "file:/Workspace/Users/eu@rodolfoviana.com.br/dataeng/data/raw/wiki_pages.json.gz"
     
     return {
         "layer": "bronze",
@@ -36,9 +34,7 @@ def configura_silver_creators() -> Dict[str, Any]:
 
 
 def configura_bronze_posts() -> Dict[str, Any]:
-    import os
-    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    data_path = os.path.join(repo_root, "data", "raw", "posts_creator.json.gz")
+    data_path = "file:/Workspace/Users/eu@rodolfoviana.com.br/dataeng/data/raw/posts_creator.json.gz"
     
     return {
         "layer": "bronze",
