@@ -102,7 +102,6 @@ def extrai_user_id_youtube(creator, config=config):
 def processa_creators_batch(creators_list, config=config):
     results = []
     total_creators = len(creators_list)
-    creators_list = [define_creator_wiki(creator) for creator in creators_list if creator]
     
     logger.info(f"Processando {total_creators} creators em lotes de {config['batch_size']}")
     
@@ -114,7 +113,8 @@ def processa_creators_batch(creators_list, config=config):
         logger.info(f"Processando lote {batch_num}/{total_batches}")
         
         for wiki_page in batch:
-            user_id = extrai_user_id_youtube(define_creator_wiki(wiki_page))
+            real_user_id = define_creator_wiki(wiki_page)
+            user_id = extrai_user_id_youtube(real_user_id)
             
             if user_id:
                 results.append({
@@ -150,7 +150,7 @@ logger.info(f"Total de creators para processar: {len(creators_list)}")
 
 # COMMAND ----------
 
-results = processa_creators_batch(creators_list, batch_size=config["batch_size"])
+results = processa_creators_batch(creators_list, config)
 
 logger.info(f"Processamento concluído. User IDs encontrados: {len(results)}")
 logger.info(f"Taxa de sucesso: {len(results)}/{len(creators_list)} ({len(results)/len(creators_list)*100:.1f}%)")
@@ -181,23 +181,8 @@ else:
 
 # COMMAND ----------
 
-
-
-table_config = {
-    "layer": "final",
-    "source": config["source"],
-    "catalog_name": "workspace",
-    "schema_name": "default",
-    "table_name": "users_yt",
-    "processing_timestamp": datetime.now(),
-    "total_rows": users_yt_df.count(),
-    "column_count": len(users_yt_df.columns),
-    "has_data": users_yt_df.count() > 0
-}
-
-# COMMAND ----------
-
 config.update({
+    "layer": "bronze",
     "total_rows": users_yt_df.count(),
     "column_count": len(users_yt_df.columns),
     "has_data": users_yt_df.count() > 0
