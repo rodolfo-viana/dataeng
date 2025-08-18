@@ -7,9 +7,7 @@ def configura_bronze_creators() -> Dict[str, Any]:
     return {
         "layer": "bronze",
         "source": "/Volumes/workspace/default/dataeng_raw/wiki_pages.json.gz",
-        "volume_path": "/Volumes/workspace/default/dataeng_raw",
         "source_filename": "wiki_pages.json.gz",
-        "original_source": "/Workspace/Users/eu@rodolfoviana.com.br/dataeng/data/raw/wiki_pages.json.gz",
         "catalog_name": "workspace",
         "schema_name": "default",
         "table_name": "bronze_creators_scrape_wiki",
@@ -38,9 +36,7 @@ def configura_bronze_posts() -> Dict[str, Any]:
     return {
         "layer": "bronze",
         "source": "/Volumes/workspace/default/dataeng_raw/posts_creator.json.gz",
-        "volume_path": "/Volumes/workspace/default/dataeng_raw",
         "source_filename": "posts_creator.json.gz",
-        "original_source": "/Workspace/Users/eu@rodolfoviana.com.br/dataeng/data/raw/posts_creator.json.gz",
         "catalog_name": "workspace",
         "schema_name": "default",
         "table_name": "bronze_post_creator",
