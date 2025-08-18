@@ -22,7 +22,7 @@ from config.pipeline_config import configura_bronze_posts, configura_silver_post
 
 bronze_config = configura_bronze_posts()
 filename = bronze_config["source_filename"].split('.')[0]
-cria_volume(spark, filename)
+cria_volume(spark, filename, dbutils)
 
 logging.basicConfig(level=getattr(logging, bronze_config["log_level"]))
 logger = logging.getLogger(__name__)

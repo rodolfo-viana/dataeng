@@ -6,7 +6,7 @@ import os
 logger = logging.getLogger(__name__)
 
 
-def carrega_volume(spark: SparkSession, file_name: str, volume_path: str = "/Volumes/workspace/default/dataeng_raw") -> bool:
+def carrega_volume(spark: SparkSession, file_name: str, dbutils, volume_path: str = "/Volumes/workspace/default/dataeng_raw") -> bool:
     try:
         file_path = f"../data/raw/{file_name}.json.gz"
         
@@ -33,7 +33,7 @@ def carrega_volume(spark: SparkSession, file_name: str, volume_path: str = "/Vol
         return False
     
 
-def cria_volume(spark: SparkSession, file_name: str, volume_path: str = "/Volumes/workspace/default/dataeng_raw") -> bool:
+def cria_volume(spark: SparkSession, file_name: str, dbutils, volume_path: str = "/Volumes/workspace/default/dataeng_raw") -> bool:
     try:
         path_parts = volume_path.strip('/').split('/')
         if len(path_parts) < 4 or path_parts[0] != 'Volumes':
@@ -50,10 +50,9 @@ def cria_volume(spark: SparkSession, file_name: str, volume_path: str = "/Volume
         logger.info(f"Criando volume: {catalog}.{schema}.{volume_name}")
         spark.sql(create_sql)
         logger.info(f"Volume criado ou já existente: {volume_path}")
-        carrega_volume(spark, file_name, volume_path)
+        carrega_volume(spark, file_name, dbutils, volume_path)
         return True
         
     except Exception as e:
         logger.error(f"Erro na criação do volume {volume_path}: {str(e)}")
         return False
-
