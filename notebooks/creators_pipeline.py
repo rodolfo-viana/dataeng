@@ -1,7 +1,4 @@
 # Databricks notebook source
-
-# COMMAND ----------
-
 from pyspark.sql import SparkSession
 import logging
 import sys
@@ -12,6 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath('')), 'src'))
 from utils.data_validation import valida_fonte, ler_fonte, valida_dados
 from utils.metadata_handler import adiciona_metadados
 from utils.table_operations import cria_tabela
+from utils.volume_operations import cria_volume
 from config.pipeline_config import configura_bronze_creators, configura_silver_creators
 
 # COMMAND ----------
@@ -22,6 +20,8 @@ from config.pipeline_config import configura_bronze_creators, configura_silver_c
 # COMMAND ----------
 
 bronze_config = configura_bronze_creators()
+filename = bronze_config["source_filename"].split('.')[0]
+cria_volume(spark, filename)
 
 logging.basicConfig(level=getattr(logging, bronze_config["log_level"]))
 logger = logging.getLogger(__name__)

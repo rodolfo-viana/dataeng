@@ -4,11 +4,12 @@ import uuid
 
 
 def configura_bronze_creators() -> Dict[str, Any]:
-    data_path = "file:/Workspace/Users/eu@rodolfoviana.com.br/dataeng/data/raw/wiki_pages.json.gz"
-    
     return {
         "layer": "bronze",
         "source": data_path,
+        "volume_path": volume_path,
+        "source_filename": "wiki_pages.json.gz",
+        "original_source": "/Workspace/Users/eu@rodolfoviana.com.br/dataeng/data/raw/wiki_pages.json.gz",
         "catalog_name": "workspace",
         "schema_name": "default",
         "table_name": "bronze_creators_scrape_wiki",
@@ -34,11 +35,12 @@ def configura_silver_creators() -> Dict[str, Any]:
 
 
 def configura_bronze_posts() -> Dict[str, Any]:
-    data_path = "file:/Workspace/Users/eu@rodolfoviana.com.br/dataeng/data/raw/posts_creator.json.gz"
-    
     return {
         "layer": "bronze",
         "source": data_path,
+        "volume_path": volume_path,
+        "source_filename": "posts_creator.json.gz",
+        "original_source": "/Workspace/Users/eu@rodolfoviana.com.br/dataeng/data/raw/posts_creator.json.gz",
         "catalog_name": "workspace",
         "schema_name": "default",
         "table_name": "bronze_post_creator",

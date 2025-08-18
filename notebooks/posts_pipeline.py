@@ -1,7 +1,4 @@
 # Databricks notebook source
-
-# COMMAND ----------
-
 from pyspark.sql import SparkSession
 import logging
 import sys
@@ -12,6 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath('')), 'src'))
 from utils.data_validation import valida_fonte, ler_fonte, valida_dados
 from utils.metadata_handler import adiciona_metadados
 from utils.table_operations import cria_tabela
+from utils.volume_operations import cria_volume
 from transformations.posts_transformations import transforma_timestamp
 from config.pipeline_config import configura_bronze_posts, configura_silver_posts
 
@@ -23,6 +21,8 @@ from config.pipeline_config import configura_bronze_posts, configura_silver_post
 # COMMAND ----------
 
 bronze_config = configura_bronze_posts()
+filename = bronze_config["source_filename"].split('.')[0]
+cria_volume(spark, filename)
 
 logging.basicConfig(level=getattr(logging, bronze_config["log_level"]))
 logger = logging.getLogger(__name__)
@@ -73,7 +73,6 @@ try:
 
     silver_df = ler_fonte(spark, silver_config)
     silver_df = transforma_timestamp(silver_df, silver_config)
-    
     silver_config = valida_dados(silver_df, silver_config)
     silver_df = adiciona_metadados(silver_df, silver_config)
     
