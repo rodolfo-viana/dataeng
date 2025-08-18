@@ -81,7 +81,3 @@ try:
 except Exception as e:
     print(f"Erro ao processar camada silver: {str(e)}")
     raise
-
-# COMMAND ----------
-
-print("Pipeline de creators concluído com sucesso!")
