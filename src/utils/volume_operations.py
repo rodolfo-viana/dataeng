@@ -8,18 +8,20 @@ logger = logging.getLogger(__name__)
 
 def carrega_volume(spark: SparkSession, file_name: str, dbutils, volume_path: str = "/Volumes/workspace/default/dataeng_raw") -> bool:
     try:
-        file_path = f"../data/raw/{file_name}.json.gz"
+        relative_path = f"../data/raw/{file_name}.json.gz"
+        absolute_path = os.path.abspath(relative_path)
         
         print(f"Carregando arquivos no volume: {volume_path}")
         print(f"Carregando: {file_name}")
+        print(f"Caminho do arquivo: {absolute_path}")
             
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"Arquivo não encontrado: {file_name}.json.gz. Arquivos devem estar contidos no reposiório, em 'data/raw'")
+        if not os.path.exists(absolute_path):
+            raise FileNotFoundError(f"Arquivo não encontrado: {file_name}.json.gz. Arquivos devem estar contidos no repositório, em 'data/raw'")
             
         try:
             destination_path = f"{volume_path}/{file_name}.json.gz"
             print(f"Copiando para: {destination_path}")
-            dbutils.fs.cp(f"file:{file_path}", destination_path)
+            dbutils.fs.cp(f"file:{absolute_path}", destination_path)
             print(f"Carregamento concluído: {file_name}")
                 
         except Exception as e:
